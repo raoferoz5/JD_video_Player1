@@ -1,0 +1,120 @@
+#:import Window kivy.core.window.Window
+#:import MDTopAppBar kivymd.uix.toolbar.MDTopAppBar
+#:import MDIconButton kivymd.uix.button.MDIconButton
+#:import MDSlider kivymd.uix.slider.MDSlider
+#:import MDBottomNavigation kivymd.uix.bottomnavigation.MDBottomNavigation
+#:import MDBottomNavigationItem kivymd.uix.bottomnavigation.MDBottomNavigationItem
+
+<VideoThumbButton@ButtonBehavior+BoxLayout>:
+    orientation: 'vertical'
+    size_hint_y: None
+    height: dp(160)
+    padding: dp(8)
+    spacing: dp(6)
+    md_bg_color: app.theme_cls.bg_dark
+
+    Image:
+        id: thumb
+        source: root.thumb_source
+        size_hint_y: .75
+        allow_stretch: True
+
+    MDLabel:
+        text: root.title_text
+        size_hint_y: .25
+        halign: 'left'
+        shorten: True
+        shorten_from: 'right'
+
+<MainPickerScreen>:
+    name: 'picker'
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            id: topbar
+            title: 'DJ Video Player'
+            elevation: 6
+            md_bg_color: app.theme_cls.primary_color
+            left_action_items: [['menu', lambda x: None]]
+
+        BoxLayout:
+            orientation: 'vertical'
+            padding: dp(8)
+
+            MDTextField:
+                id: search_field
+                hint_text: 'Search videos...'
+                on_text: root.filter_videos(self.text)
+
+            ScrollView:
+                do_scroll_x: False
+                GridLayout:
+                    id: grid_videos
+                    cols: 2
+                    spacing: dp(8)
+                    size_hint_y: None
+                    padding: dp(4)
+                    row_default_height: dp(160)
+                    row_force_default: True
+                    height: self.minimum_height
+
+        MDBottomNavigation:
+            id: bottom_nav
+            panel_color: app.theme_cls.primary_color
+
+            MDBottomNavigationItem:
+                name: 'home'
+                text: 'Home'
+                icon: 'home'
+                BoxLayout:
+
+            MDBottomNavigationItem:
+                name: 'library'
+                text: 'Library'
+                icon: 'folder-multiple'
+                BoxLayout:
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        padding: dp(8)
+                        MDLabel:
+                            text: 'Library: storage folders scanned'
+
+            MDBottomNavigationItem:
+                name: 'settings'
+                text: 'Settings'
+                icon: 'cog'
+                BoxLayout:
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        padding: dp(8)
+                        MDLabel:
+                            text: 'Settings'
+
+<VideoPlayerScreen>:
+    name: 'player'
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: app.theme_cls.primary_dark if app.theme_cls.theme_style == 'Dark' else app.theme_cls.primary_light
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        MDTopAppBar:
+            id: player_bar
+            title: root.short_name
+            elevation: 6
+            md_bg_color: app.theme_cls.primary_color
+            left_action_items: [['arrow-left', lambda x: root.close_player()]]
+
+        BoxLayout:
+            id: v_container
+            size_hint_y: 1
+            orientation: 'vertical'
+            # Video and overlay will be added dynamically
+
+ScreenManager:
+    MainPickerScreen:
+    VideoPlayerScreen:
