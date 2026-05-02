@@ -13,6 +13,10 @@ Dynamic UI: Built using KivyMD to ensure a consistent, modern look across Androi
 
 Optimized Performance: Efficient handling of video assets and thumbnails for low-latency playback.
 
+### Image
+<img width="788" height="591" alt="DJ" src="https://github.com/user-attachments/assets/09c307b2-e393-4977-9e0b-6460661027c4" />
+
+
 ### 🏗 Project Structure
 main.py: The application's core logic and playback engine.
 
